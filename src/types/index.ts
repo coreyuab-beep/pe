@@ -289,3 +289,138 @@ export interface QueryParams extends PaginationParams {
   endDate?: string
   [key: string]: any
 }
+
+// 单据状态
+export enum DocumentStatus {
+  DRAFT = 'draft',
+  PENDING = 'pending',
+  APPROVED = 'approved',
+  REJECTED = 'rejected',
+  COMPLETED = 'completed',
+  CANCELLED = 'cancelled'
+}
+
+// 单据类型
+export enum DocumentType {
+  PURCHASE_ORDER = 'purchase_order',       // 采购单
+  INBOUND_RECEIPT = 'inbound_receipt',     // 入库单
+  OUTBOUND_ORDER = 'outbound_order',       // 出库单
+  RETURN_ORDER = 'return_order',           // 退货单
+  ADJUSTMENT_ORDER = 'adjustment_order'    // 调整单
+}
+
+// 单据明细
+export interface DocumentItem {
+  id: string
+  materialId: string
+  materialCode: string
+  materialName: string
+  specification: string
+  unit: string
+  quantity: number
+  unitPrice: number
+  totalPrice: number
+  batchNo?: string
+  expiryDate?: string
+  warehouse: string
+  remarks?: string
+}
+
+// 入库单
+export interface InboundReceipt {
+  id: string
+  receiptNo: string
+  type: DocumentType
+  status: DocumentStatus
+  supplierId: string
+  supplierName: string
+  supplierContact: string
+  warehouse: string
+  items: DocumentItem[]
+  totalQuantity: number
+  totalAmount: number
+  deliveryDate: string
+  expectedDate?: string
+  purchaseOrderNo?: string
+  operator: string
+  approver?: string
+  approvedAt?: string
+  remarks: string
+  attachments?: string[]
+  createdAt: string
+  updatedAt: string
+  createdBy: string
+}
+
+// 出库单
+export interface OutboundOrder {
+  id: string
+  orderNo: string
+  type: DocumentType
+  status: DocumentStatus
+  customerId?: string
+  customerName?: string
+  warehouse: string
+  items: DocumentItem[]
+  totalQuantity: number
+  totalAmount: number
+  deliveryDate: string
+  receiver: string
+  receiverContact: string
+  deliveryAddress: string
+  relatedOrderNo?: string
+  relatedTestNo?: string
+  operator: string
+  approver?: string
+  approvedAt?: string
+  remarks: string
+  attachments?: string[]
+  createdAt: string
+  updatedAt: string
+  createdBy: string
+}
+
+// 审批记录
+export interface ApprovalRecord {
+  id: string
+  documentId: string
+  documentNo: string
+  documentType: DocumentType
+  approverId: string
+  approverName: string
+  action: 'approve' | 'reject'
+  opinion: string
+  createdAt: string
+}
+
+// 实时通知类型
+export enum NotificationType {
+  STOCK_LOW = 'stock_low',           // 库存不足
+  STOCK_OUT = 'stock_out',           // 缺货
+  ORDER_CREATED = 'order_created',   // 订单创建
+  ORDER_STATUS_CHANGED = 'order_status_changed', // 订单状态变更
+  TEST_COMPLETED = 'test_completed', // 测试完成
+  FORMULA_UPDATED = 'formula_updated', // 配方更新
+  DOCUMENT_APPROVED = 'document_approved', // 单据审批
+  DOCUMENT_REJECTED = 'document_rejected' // 单据拒绝
+}
+
+// 实时通知
+export interface Notification {
+  id: string
+  type: NotificationType
+  title: string
+  message: string
+  relatedId?: string
+  relatedNo?: string
+  isRead: boolean
+  priority: 'low' | 'medium' | 'high'
+  createdAt: string
+}
+
+// 实时数据更新事件
+export interface RealTimeEvent {
+  type: 'stock_change' | 'order_update' | 'test_update' | 'formula_update'
+  data: any
+  timestamp: number
+}

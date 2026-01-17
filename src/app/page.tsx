@@ -1,5 +1,6 @@
 'use client'
 
+import { useState, useEffect } from 'react'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
@@ -13,12 +14,36 @@ import {
   AlertTriangle,
   CheckCircle2,
   Clock,
-  ArrowRight
+  ArrowRight,
+  RefreshCw,
+  Activity
 } from 'lucide-react'
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from '@/components/ui/chart'
 import { Bar, BarChart, Line, LineChart, Pie, PieChart, Cell, XAxis, YAxis, ResponsiveContainer } from 'recharts'
 
 export default function DashboardPage() {
+  const [lastUpdateTime, setLastUpdateTime] = useState(new Date())
+  const [isRealTime, setIsRealTime] = useState(true)
+
+  useEffect(() => {
+    // 模拟实时数据更新
+    const interval = setInterval(() => {
+      setLastUpdateTime(new Date())
+    }, 10000) // 每10秒更新一次时间戳
+
+    return () => clearInterval(interval)
+  }, [])
+
+  const formatUpdateTime = (date: Date) => {
+    const now = new Date()
+    const diff = now.getTime() - date.getTime()
+    const seconds = Math.floor(diff / 1000)
+
+    if (seconds < 5) return '刚刚更新'
+    if (seconds < 60) return `${seconds}秒前更新`
+    return '1分钟前更新'
+  }
+
   // 模拟数据
   const stats = [
     {
@@ -147,11 +172,22 @@ export default function DashboardPage() {
     <div className="space-y-6 p-6">
       {/* 页面标题 */}
       <div className="flex items-center justify-between">
-        <div>
-          <h2 className="text-2xl font-bold text-slate-900">数据仪表盘</h2>
-          <p className="text-sm text-slate-500 mt-1">实时监控业务运营状态</p>
+        <div className="flex items-center gap-4">
+          <div>
+            <h2 className="text-2xl font-bold text-slate-900">数据仪表盘</h2>
+            <p className="text-sm text-slate-500 mt-1">实时监控业务运营状态</p>
+          </div>
+          <div className="flex items-center gap-2 px-3 py-1.5 bg-blue-50 rounded-lg">
+            <Activity className="h-4 w-4 text-blue-600 animate-pulse" />
+            <span className="text-sm font-medium text-blue-700">实时同步中</span>
+            <span className="text-xs text-blue-500">| {formatUpdateTime(lastUpdateTime)}</span>
+          </div>
         </div>
         <div className="flex gap-2">
+          <Button variant="outline" size="sm" className="gap-2">
+            <RefreshCw className="h-4 w-4" />
+            刷新数据
+          </Button>
           <Button variant="outline" size="sm">
             导出报告
           </Button>

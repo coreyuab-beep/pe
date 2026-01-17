@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import './globals.css';
 import { AppSidebar } from '@/components/app-sidebar';
+import { RealtimeNotifications } from '@/components/realtime-notifications';
 
 export const metadata: Metadata = {
   title: {
@@ -42,9 +43,12 @@ export default function RootLayout({
                 </h1>
               </div>
               <div className="flex items-center gap-4">
+                <RealtimeNotifications />
                 <div className="flex items-center gap-2 text-sm text-slate-600">
-                  <span className="flex h-2 w-2 rounded-full bg-green-500"></span>
-                  系统正常
+                  <span className="flex h-2 w-2 rounded-full bg-green-500 animate-pulse"></span>
+                  <span className="font-medium">系统在线</span>
+                  <span className="text-slate-400">|</span>
+                  <span className="text-xs text-slate-400">实时同步</span>
                 </div>
               </div>
             </header>
