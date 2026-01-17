@@ -16,6 +16,27 @@ let passwords: Record<string, string> = {
   admin: hashPassword('admin123'),
 };
 
+// 初始化函数（确保数据始终存在）
+export function initializeUsers() {
+  if (users.length === 0) {
+    users = [
+      {
+        id: 'admin-001',
+        username: 'admin',
+        role: 'admin',
+        createdAt: new Date('2024-01-01'),
+      },
+    ];
+  }
+
+  if (!passwords['admin']) {
+    passwords['admin'] = hashPassword('admin123');
+  }
+}
+
+// 自动初始化
+initializeUsers();
+
 // 获取所有用户
 export function getAllUsers(): User[] {
   return users;
@@ -30,10 +51,10 @@ export function getUserByUsername(username: string): User | undefined {
 export function verifyPassword(username: string, password: string): boolean {
   const user = getUserByUsername(username);
   if (!user) return false;
-  
+
   const hashedPassword = passwords[username];
   if (!hashedPassword) return false;
-  
+
   return hashPassword(password) === hashedPassword;
 }
 
@@ -41,7 +62,7 @@ export function verifyPassword(username: string, password: string): boolean {
 export function updateUserPassword(username: string, newPassword: string): boolean {
   const user = getUserByUsername(username);
   if (!user) return false;
-  
+
   passwords[username] = hashPassword(newPassword);
   return true;
 }
@@ -54,9 +75,9 @@ export function addUser(username: string, role: 'admin' | 'user', password: stri
     role,
     createdAt: new Date(),
   };
-  
+
   users.push(newUser);
   passwords[username] = hashPassword(password);
-  
+
   return newUser;
 }
