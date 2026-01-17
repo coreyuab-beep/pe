@@ -401,6 +401,8 @@ bash scripts/health-check.sh https://your-domain.vercel.app
 - [实时联动说明](./REALTIME_INTEGRATION.md) - 详细的实时联动机制和业务流程说明
 - [单据管理指南](./DOCUMENT_GUIDE.md) - 入库单/出库单使用指南（待完善）
 - [认证系统指南](./AUTH_GUIDE.md) - 登录认证和密码管理说明
+- [Vercel 配置指南](./VERCEL_CONFIG_GUIDE.md) - Vercel 快速配置步骤（推荐首先阅读）
+- [部署配置清单](./DEPLOYMENT_CHECKLIST.md) - 完整的部署配置检查清单
 - [Vercel 部署指南](./VERCEL_DEPLOYMENT.md) - 详细的 Vercel 云端部署配置指南
 - [快速部署验证](./VERCEL_QUICK_START.md) - Vercel 快速部署验证步骤
 - [Vercel 故障排查](./VERCEL_TROUBLESHOOTING.md) - Vercel 部署常见问题和解决方案
