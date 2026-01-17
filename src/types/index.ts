@@ -41,6 +41,9 @@ export interface Order {
   updatedAt: string
   createdBy: string
   creatorCode: string // 订单创建人代号（如J、K、L等）
+  shippingNo?: string // 发货单号（仅已完成订单有）
+  shippingCompany?: string // 快递公司名称
+  shippingDate?: string // 发货日期
   materials?: Material[]
   tests?: TestRecord[]
 }

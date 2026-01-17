@@ -20,16 +20,20 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-import { 
-  Search, 
-  Plus, 
-  Filter, 
+import {
+  Search,
+  Plus,
+  Filter,
   Download,
   Eye,
   Edit,
   Trash2,
-  MoreHorizontal
+  MoreHorizontal,
+  ExternalLink,
+  Package,
+  Truck
 } from 'lucide-react'
+import { openShippingTracking } from '@/lib/shipping-utils'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -93,6 +97,9 @@ export default function OrdersPage() {
       orderDate: '2024-01-14',
       formulaName: 'PCM-TE-003',
       creatorCode: 'L',
+      shippingNo: 'SF1234567890123',
+      shippingCompany: 'SF',
+      shippingDate: '2024-01-18',
     },
     {
       id: 'PE-20240114-004M',
@@ -245,6 +252,7 @@ export default function OrdersPage() {
                   <TableHead>订单金额</TableHead>
                   <TableHead>交货日期</TableHead>
                   <TableHead>配方</TableHead>
+                  <TableHead>发货信息</TableHead>
                   <TableHead className="text-right">操作</TableHead>
                 </TableRow>
               </TableHeader>
@@ -268,6 +276,30 @@ export default function OrdersPage() {
                     <TableCell>¥{order.totalAmount.toLocaleString()}</TableCell>
                     <TableCell>{order.deliveryDate}</TableCell>
                     <TableCell>{order.formulaName}</TableCell>
+                    <TableCell>
+                      {order.status === 'completed' && order.shippingNo ? (
+                        <div className="space-y-1">
+                          <div className="flex items-center gap-1 text-sm">
+                            <Truck className="h-3 w-3 text-slate-400" />
+                            <span className="text-slate-600">{order.shippingNo}</span>
+                            <button
+                              onClick={() => openShippingTracking(order.shippingCompany, order.shippingNo)}
+                              className="ml-1 p-0.5 hover:bg-slate-100 rounded transition-colors"
+                              title="查询物流"
+                            >
+                              <ExternalLink className="h-3 w-3 text-blue-600" />
+                            </button>
+                          </div>
+                          {order.shippingDate && (
+                            <div className="text-xs text-slate-500">
+                              {order.shippingDate}
+                            </div>
+                          )}
+                        </div>
+                      ) : (
+                        <span className="text-sm text-slate-400">-</span>
+                      )}
+                    </TableCell>
                     <TableCell className="text-right">
                       <DropdownMenu>
                         <DropdownMenuTrigger asChild>
