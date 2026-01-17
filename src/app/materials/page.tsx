@@ -69,8 +69,8 @@ export default function MaterialsPage() {
   const materials = [
     {
       id: 'MAT-001',
-      code: 'PW-001',
-      name: '石蜡基材料',
+      code: 'L01',
+      name: '',
       category: '基体材料',
       specification: '工业级',
       unit: 'kg',
@@ -86,8 +86,8 @@ export default function MaterialsPage() {
     },
     {
       id: 'MAT-002',
-      code: 'GR-001',
-      name: '石墨烯',
+      code: 'L02',
+      name: '',
       category: '导热填料',
       specification: '纳米级',
       unit: 'kg',
@@ -103,8 +103,8 @@ export default function MaterialsPage() {
     },
     {
       id: 'MAT-003',
-      code: 'BN-001',
-      name: '氮化硼',
+      code: 'H01',
+      name: '',
       category: '导热填料',
       specification: '微米级',
       unit: 'kg',
@@ -297,7 +297,7 @@ export default function MaterialsPage() {
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead>物料名称</TableHead>
+              <TableHead>物料编号</TableHead>
               <TableHead>规格</TableHead>
               <TableHead>批次号</TableHead>
               <TableHead>单位</TableHead>
@@ -308,7 +308,7 @@ export default function MaterialsPage() {
           </TableHeader>
           <TableBody>
             <TableRow>
-              <TableCell>石蜡基材料</TableCell>
+              <TableCell>L01</TableCell>
               <TableCell>工业级</TableCell>
               <TableCell>B202401001</TableCell>
               <TableCell>kg</TableCell>
@@ -318,7 +318,7 @@ export default function MaterialsPage() {
             </TableRow>
             {receipt.itemCount > 1 && (
               <TableRow>
-                <TableCell>石墨烯</TableCell>
+                <TableCell>L02</TableCell>
                 <TableCell>纳米级</TableCell>
                 <TableCell>B202401002</TableCell>
                 <TableCell>kg</TableCell>
@@ -410,7 +410,7 @@ export default function MaterialsPage() {
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead>物料名称</TableHead>
+              <TableHead>物料编号</TableHead>
               <TableHead>规格</TableHead>
               <TableHead>批次号</TableHead>
               <TableHead>单位</TableHead>
@@ -421,7 +421,7 @@ export default function MaterialsPage() {
           </TableHeader>
           <TableBody>
             <TableRow>
-              <TableCell>石蜡基材料</TableCell>
+              <TableCell>L01</TableCell>
               <TableCell>工业级</TableCell>
               <TableCell>B202401001</TableCell>
               <TableCell>kg</TableCell>
@@ -567,8 +567,7 @@ export default function MaterialsPage() {
                 <Table>
                   <TableHeader>
                     <TableRow>
-                      <TableHead>物料代码</TableHead>
-                      <TableHead>物料名称</TableHead>
+                      <TableHead>物料编号</TableHead>
                       <TableHead>分类</TableHead>
                       <TableHead>当前库存</TableHead>
                       <TableHead>库存状态</TableHead>
@@ -583,7 +582,6 @@ export default function MaterialsPage() {
                     {materials.map((material) => (
                       <TableRow key={material.id}>
                         <TableCell className="font-medium">{material.code}</TableCell>
-                        <TableCell>{material.name}</TableCell>
                         <TableCell>{material.category}</TableCell>
                         <TableCell>
                           <div className="space-y-1">

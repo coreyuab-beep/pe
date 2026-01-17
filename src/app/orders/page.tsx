@@ -47,7 +47,7 @@ export default function OrdersPage() {
   // 模拟订单数据
   const orders = [
     {
-      id: 'ORD-2024-001',
+      id: 'PE-20240115-001J',
       customerName: '华为技术有限公司',
       contactPerson: '张三',
       contactPhone: '13800138001',
@@ -60,9 +60,10 @@ export default function OrdersPage() {
       deliveryDate: '2024-01-20',
       orderDate: '2024-01-15',
       formulaName: 'PCM-HE-001',
+      creatorCode: 'J',
     },
     {
-      id: 'ORD-2024-002',
+      id: 'PE-20240115-002K',
       customerName: '比亚迪股份有限公司',
       contactPerson: '李四',
       contactPhone: '13800138002',
@@ -75,9 +76,10 @@ export default function OrdersPage() {
       deliveryDate: '2024-01-25',
       orderDate: '2024-01-15',
       formulaName: 'PCM-TC-002',
+      creatorCode: 'K',
     },
     {
-      id: 'ORD-2024-003',
+      id: 'PE-20240114-003L',
       customerName: '宁德时代新能源',
       contactPerson: '王五',
       contactPhone: '13800138003',
@@ -90,9 +92,10 @@ export default function OrdersPage() {
       deliveryDate: '2024-01-18',
       orderDate: '2024-01-14',
       formulaName: 'PCM-TE-003',
+      creatorCode: 'L',
     },
     {
-      id: 'ORD-2024-004',
+      id: 'PE-20240114-004M',
       customerName: '中航工业',
       contactPerson: '赵六',
       contactPhone: '13800138004',
@@ -105,9 +108,10 @@ export default function OrdersPage() {
       deliveryDate: '2024-01-22',
       orderDate: '2024-01-14',
       formulaName: 'PCM-HE-004',
+      creatorCode: 'M',
     },
     {
-      id: 'ORD-2024-005',
+      id: 'PE-20240113-005J',
       customerName: '中国商飞',
       contactPerson: '孙七',
       contactPhone: '13800138005',
@@ -120,9 +124,10 @@ export default function OrdersPage() {
       deliveryDate: '2024-01-28',
       orderDate: '2024-01-13',
       formulaName: 'PCM-SA-005',
+      creatorCode: 'J',
     },
     {
-      id: 'ORD-2024-006',
+      id: 'PE-20240112-006K',
       customerName: '格力电器',
       contactPerson: '周八',
       contactPhone: '13800138006',
@@ -135,6 +140,7 @@ export default function OrdersPage() {
       deliveryDate: '2024-01-30',
       orderDate: '2024-01-12',
       formulaName: 'PCM-TC-006',
+      creatorCode: 'K',
     },
   ]
 

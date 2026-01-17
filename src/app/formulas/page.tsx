@@ -143,11 +143,11 @@ export default function FormulasPage() {
   ]
 
   const formulaMaterials = [
-    { name: '石蜡基材料', ratio: 35, unit: '%' },
-    { name: '石墨烯', ratio: 15, unit: '%' },
-    { name: '氮化硼', ratio: 20, unit: '%' },
-    { name: '膨胀石墨', ratio: 25, unit: '%' },
-    { name: '功能性添加剂', ratio: 5, unit: '%' },
+    { code: 'L01', ratio: 35, unit: '%' },
+    { code: 'L02', ratio: 15, unit: '%' },
+    { code: 'H01', ratio: 20, unit: '%' },
+    { code: 'A01', ratio: 25, unit: '%' },
+    { code: 'B01', ratio: 5, unit: '%' },
   ]
 
   const getCategoryBadge = (category: string) => {
@@ -291,8 +291,8 @@ export default function FormulasPage() {
         <h3 className="text-lg font-semibold text-slate-900 mb-3">材料组成</h3>
         <div className="space-y-2">
           {formulaMaterials.map((material) => (
-            <div key={material.name} className="flex items-center justify-between p-3 rounded-lg border bg-slate-50">
-              <span className="text-sm text-slate-700">{material.name}</span>
+            <div key={material.code} className="flex items-center justify-between p-3 rounded-lg border bg-slate-50">
+              <span className="text-sm text-slate-700">{material.code}</span>
               <span className="text-sm font-medium text-slate-900">{material.ratio}{material.unit}</span>
             </div>
           ))}

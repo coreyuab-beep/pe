@@ -40,6 +40,7 @@ export interface Order {
   createdAt: string
   updatedAt: string
   createdBy: string
+  creatorCode: string // 订单创建人代号（如J、K、L等）
   materials?: Material[]
   tests?: TestRecord[]
 }
@@ -72,7 +73,7 @@ export interface Formula {
 // 配方材料关联
 export interface FormulaMaterial {
   materialId: string
-  materialName: string
+  materialCode: string // 物料编号（如L01, H02, A03等）
   ratio: number // 比例 (%)
   requiredQuantity: number
 }
@@ -88,8 +89,8 @@ export enum MaterialStatus {
 // 物料接口
 export interface Material {
   id: string
-  code: string
-  name: string
+  code: string // 物料编号（如L01, H02, A03等）
+  name?: string // 物料名称（可选，不对外显示）
   category: string
   specification: string
   unit: string
