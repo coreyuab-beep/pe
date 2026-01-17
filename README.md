@@ -200,6 +200,75 @@ coze build
 coze start
 ```
 
+## 快速开始
+
+**想要快速部署到云端？** 查看 [快速开始指南](./QUICK_START.md)，3 步即可完成部署！
+
+### 运行部署助手
+
+```bash
+# 一键部署准备
+./deploy-vercel.sh
+```
+
+详细步骤请参考 [QUICK_START.md](./QUICK_START.md)
+
+## 云端部署
+
+### 快速部署到 Vercel（推荐）
+
+Vercel 是 Next.js 官方推荐的部署平台，提供免费额度。
+
+#### 使用部署脚本
+
+```bash
+# 运行部署助手
+./deploy-vercel.sh
+```
+
+脚本会自动：
+- ✅ 检查环境
+- ✅ 安装依赖
+- ✅ 运行类型检查
+- ✅ 构建项目
+- ✅ 准备 Git 仓库
+
+#### 手动部署步骤
+
+1. **准备代码仓库**
+```bash
+git init
+git add .
+git commit -m "Initial commit"
+git remote add origin https://github.com/your-username/your-repo.git
+git push -u origin main
+```
+
+2. **在 Vercel 创建项目**
+   - 访问 https://vercel.com/new
+   - 导入你的 GitHub 仓库
+   - 点击 Deploy
+
+3. **配置环境变量**
+```
+NEXT_PUBLIC_APP_URL=https://your-project.vercel.app
+NEXT_PUBLIC_APP_NAME=Passive Edge 订单生产测试管理系统
+NODE_ENV=production
+```
+
+### 其他部署方式
+
+- **Docker 部署**：使用 Docker 容器化部署
+- **云服务器部署**：阿里云、腾讯云等
+- **详细文档**：查看 [DEPLOYMENT.md](./DEPLOYMENT.md)
+
+### 免费数据库推荐
+
+- [Supabase](https://supabase.com) - PostgreSQL 数据库
+- [Neon](https://neon.tech) - Serverless PostgreSQL
+- [PlanetScale](https://planetscale.com) - MySQL 数据库
+
+
 ## 部署说明
 
 系统默认运行在 **5000** 端口，通过以下命令启动：
