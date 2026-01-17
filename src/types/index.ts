@@ -106,7 +106,6 @@ export interface Material {
   productionDate: string
   expiryDate: string
   status: MaterialStatus
-  price: number
   createdAt: string
   updatedAt: string
   createdBy: string

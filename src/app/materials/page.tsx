@@ -82,7 +82,6 @@ export default function MaterialsPage() {
       productionDate: '2024-01-10',
       expiryDate: '2025-01-10',
       status: 'low_stock',
-      price: 25.5,
     },
     {
       id: 'MAT-002',
@@ -99,7 +98,6 @@ export default function MaterialsPage() {
       productionDate: '2024-01-08',
       expiryDate: '2025-01-08',
       status: 'low_stock',
-      price: 850,
     },
     {
       id: 'MAT-003',
@@ -116,7 +114,6 @@ export default function MaterialsPage() {
       productionDate: '2024-01-05',
       expiryDate: '2025-01-05',
       status: 'low_stock',
-      price: 320,
     },
   ]
 
@@ -129,7 +126,6 @@ export default function MaterialsPage() {
       supplierContact: '张经理 13800138001',
       warehouse: 'A区1号库',
       totalQuantity: 200,
-      totalAmount: 5100,
       deliveryDate: '2024-01-15',
       expectedDate: '2024-01-15',
       status: 'approved',
@@ -146,7 +142,6 @@ export default function MaterialsPage() {
       supplierContact: '王总 13800138002',
       warehouse: 'A区2号库',
       totalQuantity: 50,
-      totalAmount: 42500,
       deliveryDate: '2024-01-16',
       expectedDate: '2024-01-16',
       status: 'pending',
@@ -161,7 +156,6 @@ export default function MaterialsPage() {
       supplierContact: '赵工 13800138003',
       warehouse: 'B区1号库',
       totalQuantity: 80,
-      totalAmount: 25600,
       deliveryDate: '2024-01-14',
       expectedDate: '2024-01-14',
       status: 'completed',
@@ -184,7 +178,6 @@ export default function MaterialsPage() {
       deliveryAddress: '深圳市龙岗区',
       warehouse: 'A区1号库',
       totalQuantity: 150,
-      totalAmount: 3825,
       deliveryDate: '2024-01-15',
       status: 'approved',
       operator: '李四',
@@ -203,7 +196,6 @@ export default function MaterialsPage() {
       deliveryAddress: '深圳市坪山区',
       warehouse: 'A区2号库',
       totalQuantity: 300,
-      totalAmount: 7650,
       deliveryDate: '2024-01-16',
       status: 'pending',
       operator: '王五',
@@ -220,7 +212,6 @@ export default function MaterialsPage() {
       deliveryAddress: '宁德市蕉城区',
       warehouse: 'B区1号库',
       totalQuantity: 100,
-      totalAmount: 2550,
       deliveryDate: '2024-01-14',
       status: 'completed',
       operator: '赵六',
@@ -259,7 +250,6 @@ export default function MaterialsPage() {
     totalMaterials: materials.length,
     lowStockCount: materials.filter(m => m.status === 'low_stock').length,
     outOfStockCount: materials.filter(m => m.status === 'out_of_stock').length,
-    totalValue: materials.reduce((sum, m) => sum + m.currentStock * m.price, 0),
   }
 
   // 入库单详情组件
@@ -302,8 +292,6 @@ export default function MaterialsPage() {
               <TableHead>批次号</TableHead>
               <TableHead>单位</TableHead>
               <TableHead>数量</TableHead>
-              <TableHead>单价</TableHead>
-              <TableHead>金额</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -313,8 +301,6 @@ export default function MaterialsPage() {
               <TableCell>B202401001</TableCell>
               <TableCell>kg</TableCell>
               <TableCell>200</TableCell>
-              <TableCell>¥25.5</TableCell>
-              <TableCell>¥5,100</TableCell>
             </TableRow>
             {receipt.itemCount > 1 && (
               <TableRow>
@@ -323,8 +309,6 @@ export default function MaterialsPage() {
                 <TableCell>B202401002</TableCell>
                 <TableCell>kg</TableCell>
                 <TableCell>50</TableCell>
-                <TableCell>¥850</TableCell>
-                <TableCell>¥42,500</TableCell>
               </TableRow>
             )}
           </TableBody>
@@ -340,7 +324,6 @@ export default function MaterialsPage() {
         </div>
         <div className="text-right">
           <p className="text-sm text-slate-500">合计数量: {receipt.totalQuantity} kg</p>
-          <p className="text-2xl font-bold">合计金额: ¥{receipt.totalAmount.toLocaleString()}</p>
         </div>
       </div>
 
@@ -415,8 +398,6 @@ export default function MaterialsPage() {
               <TableHead>批次号</TableHead>
               <TableHead>单位</TableHead>
               <TableHead>数量</TableHead>
-              <TableHead>单价</TableHead>
-              <TableHead>金额</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -426,8 +407,6 @@ export default function MaterialsPage() {
               <TableCell>B202401001</TableCell>
               <TableCell>kg</TableCell>
               <TableCell>150</TableCell>
-              <TableCell>¥25.5</TableCell>
-              <TableCell>¥3,825</TableCell>
             </TableRow>
           </TableBody>
         </Table>
@@ -442,7 +421,6 @@ export default function MaterialsPage() {
         </div>
         <div className="text-right">
           <p className="text-sm text-slate-500">合计数量: {order.totalQuantity} kg</p>
-          <p className="text-2xl font-bold">合计金额: ¥{order.totalAmount.toLocaleString()}</p>
         </div>
       </div>
 
@@ -492,7 +470,7 @@ export default function MaterialsPage() {
       </div>
 
       {/* 库存统计卡片 */}
-      <div className="grid gap-4 md:grid-cols-4">
+      <div className="grid gap-4 md:grid-cols-3">
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium text-slate-500">
@@ -531,21 +509,6 @@ export default function MaterialsPage() {
             <p className="text-xs text-slate-500 mt-1">紧急采购</p>
           </CardContent>
         </Card>
-
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium text-slate-500">
-              库存总值
-            </CardTitle>
-            <Package className="h-4 w-4 text-green-500" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold text-slate-900">
-              ¥{stockStats.totalValue.toLocaleString()}
-            </div>
-            <p className="text-xs text-slate-500 mt-1">当前库存价值</p>
-          </CardContent>
-        </Card>
       </div>
 
       {/* 标签页 */}
@@ -574,7 +537,6 @@ export default function MaterialsPage() {
                       <TableHead>供应商</TableHead>
                       <TableHead>批次号</TableHead>
                       <TableHead>有效期</TableHead>
-                      <TableHead>单价</TableHead>
                       <TableHead className="text-right">操作</TableHead>
                     </TableRow>
                   </TableHeader>
@@ -603,7 +565,6 @@ export default function MaterialsPage() {
                         </TableCell>
                         <TableCell>{material.batchNo}</TableCell>
                         <TableCell>{material.expiryDate}</TableCell>
-                        <TableCell>¥{material.price.toFixed(2)}</TableCell>
                         <TableCell className="text-right">
                           <DropdownMenu>
                             <DropdownMenuTrigger asChild>
@@ -665,7 +626,6 @@ export default function MaterialsPage() {
                       <TableHead>入库仓库</TableHead>
                       <TableHead>送达日期</TableHead>
                       <TableHead>物料数量</TableHead>
-                      <TableHead>总金额</TableHead>
                       <TableHead>状态</TableHead>
                       <TableHead>操作人</TableHead>
                       <TableHead className="text-right">操作</TableHead>
@@ -684,7 +644,6 @@ export default function MaterialsPage() {
                         <TableCell>{receipt.warehouse}</TableCell>
                         <TableCell>{receipt.deliveryDate}</TableCell>
                         <TableCell>{receipt.totalQuantity} kg</TableCell>
-                        <TableCell>¥{receipt.totalAmount.toLocaleString()}</TableCell>
                         <TableCell>{getStatusBadge(receipt.status)}</TableCell>
                         <TableCell>{receipt.operator}</TableCell>
                         <TableCell className="text-right">
@@ -735,7 +694,6 @@ export default function MaterialsPage() {
                       <TableHead>出库仓库</TableHead>
                       <TableHead>送达日期</TableHead>
                       <TableHead>物料数量</TableHead>
-                      <TableHead>总金额</TableHead>
                       <TableHead>状态</TableHead>
                       <TableHead>关联订单</TableHead>
                       <TableHead className="text-right">操作</TableHead>
@@ -754,7 +712,6 @@ export default function MaterialsPage() {
                         <TableCell>{order.warehouse}</TableCell>
                         <TableCell>{order.deliveryDate}</TableCell>
                         <TableCell>{order.totalQuantity} kg</TableCell>
-                        <TableCell>¥{order.totalAmount.toLocaleString()}</TableCell>
                         <TableCell>{getStatusBadge(order.status)}</TableCell>
                         <TableCell>{order.relatedOrderNo || '-'}</TableCell>
                         <TableCell className="text-right">
