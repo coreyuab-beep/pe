@@ -26,10 +26,10 @@ import {
   TabsList,
   TabsTrigger,
 } from '@/components/ui/tabs'
-import { 
-  Search, 
-  Plus, 
-  Filter, 
+import {
+  Search,
+  Plus,
+  Filter,
   Eye,
   Edit,
   MoreHorizontal,
@@ -38,7 +38,8 @@ import {
   Zap,
   Activity,
   Layers,
-  CheckCircle2
+  CheckCircle2,
+  Scale
 } from 'lucide-react'
 import {
   DropdownMenu,
@@ -67,6 +68,7 @@ export default function FormulasPage() {
       phaseChangeTemperature: 45,
       latentHeat: 220,
       thermalConductivity: 2.5,
+      density: 0.95,
       stability: 5000,
       status: 'published',
       materials: 5,
@@ -82,6 +84,7 @@ export default function FormulasPage() {
       phaseChangeTemperature: 35,
       latentHeat: 180,
       thermalConductivity: 3.2,
+      density: 1.15,
       stability: 8000,
       status: 'published',
       materials: 8,
@@ -97,6 +100,7 @@ export default function FormulasPage() {
       phaseChangeTemperature: 25,
       latentHeat: 150,
       thermalConductivity: 0.8,
+      density: 0.88,
       stability: 3000,
       status: 'draft',
       materials: 4,
@@ -112,6 +116,7 @@ export default function FormulasPage() {
       phaseChangeTemperature: 38,
       latentHeat: 165,
       thermalConductivity: 1.8,
+      density: 1.02,
       stability: 4000,
       status: 'published',
       materials: 6,
@@ -127,6 +132,7 @@ export default function FormulasPage() {
       phaseChangeTemperature: 18,
       latentHeat: 195,
       thermalConductivity: 2.1,
+      density: 0.92,
       stability: 6000,
       status: 'published',
       materials: 5,
@@ -282,6 +288,17 @@ export default function FormulasPage() {
               <span className="font-medium text-slate-900">5000 次</span>
             </div>
             <Progress value={71} max={100} className="h-2" />
+          </div>
+
+          <div className="space-y-2">
+            <div className="flex justify-between text-sm">
+              <span className="flex items-center gap-2 text-slate-600">
+                <Scale className="h-4 w-4" />
+                密度
+              </span>
+              <span className="font-medium text-slate-900">0.95 g/cm³</span>
+            </div>
+            <Progress value={95} max={100} className="h-2" />
           </div>
         </div>
       </div>
