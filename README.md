@@ -323,6 +323,33 @@ coze dev  # 开发环境
 coze start  # 生产环境
 ```
 
+### Vercel 云端部署（推荐）
+
+本系统支持一键部署到 Vercel 平台，提供以下优势：
+
+- ✅ 全球 CDN 加速
+- ✅ 自动 HTTPS
+- ✅ 持续集成/部署
+- ✅ 免费额度充足
+
+**快速开始**：
+1. 查看 [快速部署验证](./VERCEL_QUICK_START.md)
+2. 参考 [详细部署指南](./VERCEL_DEPLOYMENT.md)
+3. 运行部署前检查：`bash scripts/pre-deploy-check.sh`
+
+**部署验证**：
+```bash
+# 使用健康检查脚本验证部署
+bash scripts/health-check.sh https://your-domain.vercel.app
+```
+
+**必需配置**：
+- PostgreSQL 数据库（推荐 Supabase 或 Neon）
+- AWS S3 对象存储（或兼容服务）
+- 环境变量配置（详见部署文档）
+
+### 本地开发部署
+
 ## 浏览器支持
 
 - Chrome (推荐)
@@ -373,6 +400,9 @@ coze start  # 生产环境
 
 - [实时联动说明](./REALTIME_INTEGRATION.md) - 详细的实时联动机制和业务流程说明
 - [单据管理指南](./DOCUMENT_GUIDE.md) - 入库单/出库单使用指南（待完善）
+- [认证系统指南](./AUTH_GUIDE.md) - 登录认证和密码管理说明
+- [Vercel 部署指南](./VERCEL_DEPLOYMENT.md) - 详细的 Vercel 云端部署配置指南
+- [快速部署验证](./VERCEL_QUICK_START.md) - Vercel 快速部署验证步骤
 
 ## 💡 使用提示
 
