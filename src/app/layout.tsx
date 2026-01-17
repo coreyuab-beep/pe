@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import './globals.css';
+import { AuthProvider } from '@/contexts/AuthContext';
 import { AppSidebar } from '@/components/app-sidebar';
 import { RealtimeNotifications } from '@/components/realtime-notifications';
 
@@ -29,6 +30,7 @@ export default function RootLayout({
   return (
     <html lang="zh-CN">
       <body className="antialiased bg-slate-100">
+        <AuthProvider>
         <div className="flex h-screen overflow-hidden">
           {/* 侧边栏 */}
           <AppSidebar />
@@ -59,6 +61,7 @@ export default function RootLayout({
             </main>
           </div>
         </div>
+        </AuthProvider>
       </body>
     </html>
   );

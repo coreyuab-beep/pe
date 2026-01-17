@@ -1,11 +1,13 @@
 'use client'
 
 import * as React from 'react'
-import { BookOpen, Database, FlaskConical, LayoutDashboard, Package, Settings, TestTube2, ChevronRight, LucideIcon } from 'lucide-react'
+import { BookOpen, Database, FlaskConical, LayoutDashboard, Package, Settings, TestTube2, ChevronRight, LogOut, LucideIcon } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { Badge } from '@/components/ui/badge'
+import { Button } from '@/components/ui/button'
+import { useAuth } from '@/contexts/AuthContext'
 
 export interface SidebarItem {
   title: string
@@ -54,6 +56,11 @@ const sidebarItems: SidebarItem[] = [
 
 export function AppSidebar() {
   const pathname = usePathname()
+  const { user, logout } = useAuth()
+
+  const handleLogout = async () => {
+    await logout()
+  }
 
   return (
     <div className="flex h-full w-64 flex-col border-r bg-slate-50/50">
@@ -114,12 +121,23 @@ export function AppSidebar() {
       <div className="border-t bg-white p-4">
         <div className="flex items-center gap-3 rounded-lg border p-3">
           <div className="flex h-9 w-9 items-center justify-center rounded-full bg-gradient-to-br from-blue-500 to-indigo-600 text-sm font-medium text-white">
-            管理员
+            {user?.username?.charAt(0).toUpperCase() || 'U'}
           </div>
           <div className="flex-1 overflow-hidden">
-            <p className="truncate text-sm font-medium text-slate-900">系统管理员</p>
-            <p className="truncate text-xs text-slate-500">admin@passive-edge.com</p>
+            <p className="truncate text-sm font-medium text-slate-900">{user?.username || '用户'}</p>
+            <p className="truncate text-xs text-slate-500">
+              {user?.role === 'admin' ? '管理员' : '普通用户'}
+            </p>
           </div>
+          <Button
+            variant="ghost"
+            size="icon"
+            className="h-8 w-8 text-slate-400 hover:text-red-600"
+            onClick={handleLogout}
+            title="退出登录"
+          >
+            <LogOut className="h-4 w-4" />
+          </Button>
         </div>
       </div>
     </div>
