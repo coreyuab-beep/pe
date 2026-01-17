@@ -137,7 +137,30 @@ X-XSS-Protection: 1; mode=block
 
 ## 常见问题排查
 
-### 问题 1: 部署失败
+### 问题 1: 找不到 routes-manifest.json
+
+**症状**: 部署时报错 `ENOENT: no such file or directory, lstat '/vercel/path0/vercel/path0/.next/routes-manifest.json'`
+
+**解决方案**:
+```bash
+# 1. 清理并重新构建
+rm -rf .next
+pnpm run build
+
+# 2. 验证构建产物
+ls -la .next/routes-manifest.json
+
+# 3. 检查 next.config.ts 配置
+# 确保移除了 outputFileTracingRoot 配置
+# 或使用 output: 'standalone' 模式
+
+# 4. 提交更改
+git add .
+git commit -m "修复 Vercel 部署配置"
+git push
+```
+
+### 问题 2: 部署失败
 
 **症状**: 构建失败，报错信息
 

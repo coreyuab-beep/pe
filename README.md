@@ -403,6 +403,7 @@ bash scripts/health-check.sh https://your-domain.vercel.app
 - [认证系统指南](./AUTH_GUIDE.md) - 登录认证和密码管理说明
 - [Vercel 部署指南](./VERCEL_DEPLOYMENT.md) - 详细的 Vercel 云端部署配置指南
 - [快速部署验证](./VERCEL_QUICK_START.md) - Vercel 快速部署验证步骤
+- [Vercel 故障排查](./VERCEL_TROUBLESHOOTING.md) - Vercel 部署常见问题和解决方案
 
 ## 💡 使用提示
 

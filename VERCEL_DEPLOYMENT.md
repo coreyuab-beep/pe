@@ -476,7 +476,55 @@ LOG_LEVEL=error
 
 ### 常见问题
 
-#### 1. 部署失败
+#### 1. 部署失败 - 找不到 routes-manifest.json
+
+**症状**: 部署时报错 `ENOENT: no such file or directory, lstat '/vercel/path0/vercel/path0/.next/routes-manifest.json'`
+
+**原因**: Next.js 配置中的 `outputFileTracingRoot` 路径在 Vercel 环境中不正确
+
+**解决方案**:
+1. 修改 `next.config.ts`，移除或调整 `outputFileTracingRoot` 配置
+2. 使用 `output: 'standalone'` 模式进行构建
+3. 本地重新构建并验证：
+
+```bash
+# 清理构建产物
+rm -rf .next
+
+# 重新构建
+pnpm run build
+
+# 验证 routes-manifest.json 存在
+ls -la .next/routes-manifest.json
+```
+
+4. 提交更改并重新部署到 Vercel
+
+**修复后的 `next.config.ts`**:
+```typescript
+import type { NextConfig } from 'next';
+
+const nextConfig: NextConfig = {
+  // 移除 outputFileTracingRoot 以避免 Vercel 部署路径问题
+  // Vercel 会自动处理文件追踪
+  allowedDevOrigins: ['*.dev.coze.site'],
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'lf-coze-web-cdn.coze.cn',
+        pathname: '/**',
+      },
+    ],
+  },
+  // 确保输出目录正确
+  output: 'standalone',
+};
+
+export default nextConfig;
+```
+
+#### 2. 构建失败
 
 **症状**: 构建失败，报错信息
 
