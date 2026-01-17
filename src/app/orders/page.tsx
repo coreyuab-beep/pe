@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
 import { Badge } from '@/components/ui/badge'
 import {
   Table,
@@ -21,6 +22,14 @@ import {
   SelectValue,
 } from '@/components/ui/select'
 import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/ui/dialog'
+import {
   Search,
   Plus,
   Filter,
@@ -31,7 +40,9 @@ import {
   MoreHorizontal,
   ExternalLink,
   Package,
-  Truck
+  Truck,
+  X,
+  Save
 } from 'lucide-react'
 import { openShippingTracking } from '@/lib/shipping-utils'
 import {
@@ -42,11 +53,66 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
+import { Alert, AlertDescription } from '@/components/ui/alert'
+import { Textarea } from '@/components/ui/textarea'
 
 export default function OrdersPage() {
   const [searchKeyword, setSearchKeyword] = useState('')
   const [statusFilter, setStatusFilter] = useState('all')
   const [currentPage, setCurrentPage] = useState(1)
+  const [selectedOrder, setSelectedOrder] = useState<any>(null)
+  const [isEditDialogOpen, setIsEditDialogOpen] = useState(false)
+  const [isCancelDialogOpen, setIsCancelDialogOpen] = useState(false)
+  const [cancelReason, setCancelReason] = useState('')
+  const [editForm, setEditForm] = useState<any>(null)
+
+  // 判断订单是否可以编辑
+  const canEditOrder = (order: any) => {
+    return order.status === 'pending' || order.status === 'processing'
+  }
+
+  // 判断订单是否可以取消
+  const canCancelOrder = (order: any) => {
+    return order.status !== 'completed' && order.status !== 'cancelled'
+  }
+
+  // 处理编辑订单
+  const handleEditOrder = (order: any) => {
+    setSelectedOrder(order)
+    setEditForm({
+      ...order,
+    })
+    setIsEditDialogOpen(true)
+  }
+
+  // 保存编辑
+  const handleSaveEdit = () => {
+    // 这里添加保存逻辑
+    console.log('保存订单编辑:', editForm)
+    setIsEditDialogOpen(false)
+    setSelectedOrder(null)
+    setEditForm(null)
+  }
+
+  // 处理取消订单
+  const handleCancelOrder = (order: any) => {
+    setSelectedOrder(order)
+    setCancelReason('')
+    setIsCancelDialogOpen(true)
+  }
+
+  // 确认取消订单
+  const handleConfirmCancel = () => {
+    if (!cancelReason.trim()) {
+      alert('请输入取消原因')
+      return
+    }
+    // 这里添加取消逻辑
+    console.log('取消订单:', selectedOrder.id, '原因:', cancelReason)
+    setIsCancelDialogOpen(false)
+    setSelectedOrder(null)
+    setCancelReason('')
+  }
 
   // 模拟订单数据
   const orders = [
@@ -179,6 +245,188 @@ export default function OrdersPage() {
 
   return (
     <div className="space-y-6 p-6">
+      {/* 编辑订单对话框 */}
+      <Dialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}>
+        <DialogContent className="max-w-2xl max-h-[80vh] overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle>编辑订单</DialogTitle>
+            <DialogDescription>
+              修改订单信息，订单编号: {selectedOrder?.id}
+            </DialogDescription>
+          </DialogHeader>
+          {editForm && (
+            <div className="grid gap-4 py-4">
+              <div className="grid grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <Label htmlFor="customerName">客户名称 *</Label>
+                  <Input
+                    id="customerName"
+                    value={editForm.customerName}
+                    onChange={(e) => setEditForm({ ...editForm, customerName: e.target.value })}
+                    disabled={editForm.status === 'processing'}
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="contactPerson">联系人 *</Label>
+                  <Input
+                    id="contactPerson"
+                    value={editForm.contactPerson}
+                    onChange={(e) => setEditForm({ ...editForm, contactPerson: e.target.value })}
+                  />
+                </div>
+              </div>
+              <div className="grid grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <Label htmlFor="contactPhone">联系电话 *</Label>
+                  <Input
+                    id="contactPhone"
+                    value={editForm.contactPhone}
+                    onChange={(e) => setEditForm({ ...editForm, contactPhone: e.target.value })}
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="type">订单类型 *</Label>
+                  <Select
+                    value={editForm.type}
+                    onValueChange={(value) => setEditForm({ ...editForm, type: value })}
+                    disabled={editForm.status === 'processing'}
+                  >
+                    <SelectTrigger id="type">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="生产订单">生产订单</SelectItem>
+                      <SelectItem value="测试订单">测试订单</SelectItem>
+                      <SelectItem value="样品订单">样品订单</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+              </div>
+              <div className="grid grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <Label htmlFor="quantity">数量 *</Label>
+                  <Input
+                    id="quantity"
+                    type="number"
+                    value={editForm.quantity}
+                    onChange={(e) => setEditForm({ ...editForm, quantity: parseInt(e.target.value) || 0 })}
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="unit">单位</Label>
+                  <Input
+                    id="unit"
+                    value={editForm.unit}
+                    onChange={(e) => setEditForm({ ...editForm, unit: e.target.value })}
+                    disabled
+                  />
+                </div>
+              </div>
+              <div className="grid grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <Label htmlFor="priority">优先级</Label>
+                  <Select
+                    value={editForm.priority}
+                    onValueChange={(value) => setEditForm({ ...editForm, priority: value })}
+                  >
+                    <SelectTrigger id="priority">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="low">低</SelectItem>
+                      <SelectItem value="medium">中</SelectItem>
+                      <SelectItem value="high">高</SelectItem>
+                      <SelectItem value="urgent">紧急</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="deliveryDate">交货日期 *</Label>
+                  <Input
+                    id="deliveryDate"
+                    type="date"
+                    value={editForm.deliveryDate}
+                    onChange={(e) => setEditForm({ ...editForm, deliveryDate: e.target.value })}
+                  />
+                </div>
+              </div>
+              {editForm.status === 'processing' && (
+                <Alert>
+                  <AlertDescription>
+                    该订单已进入生产状态，客户名称和订单类型无法修改。
+                  </AlertDescription>
+                </Alert>
+              )}
+            </div>
+          )}
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setIsEditDialogOpen(false)}>
+              <X className="mr-2 h-4 w-4" />
+              取消
+            </Button>
+            <Button onClick={handleSaveEdit}>
+              <Save className="mr-2 h-4 w-4" />
+              保存修改
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      {/* 取消订单对话框 */}
+      <Dialog open={isCancelDialogOpen} onOpenChange={setIsCancelDialogOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>取消订单</DialogTitle>
+            <DialogDescription>
+              确定要取消订单 {selectedOrder?.id} 吗？此操作不可撤销。
+            </DialogDescription>
+          </DialogHeader>
+          <div className="space-y-4 py-4">
+            {selectedOrder && (
+              <div className="space-y-2 text-sm">
+                <div className="flex justify-between">
+                  <span className="text-slate-500">客户名称:</span>
+                  <span className="font-medium">{selectedOrder.customerName}</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-slate-500">订单数量:</span>
+                  <span className="font-medium">{selectedOrder.quantity} {selectedOrder.unit}</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-slate-500">订单金额:</span>
+                  <span className="font-medium">¥{selectedOrder.totalAmount.toLocaleString()}</span>
+                </div>
+              </div>
+            )}
+            <div className="space-y-2">
+              <Label htmlFor="cancelReason">取消原因 *</Label>
+              <Textarea
+                id="cancelReason"
+                placeholder="请输入取消原因..."
+                value={cancelReason}
+                onChange={(e) => setCancelReason(e.target.value)}
+                rows={3}
+              />
+            </div>
+            <Alert>
+              <AlertDescription>
+                取消订单后，相关的物料出库单将被同步取消，库存会自动回退。
+              </AlertDescription>
+            </Alert>
+          </div>
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setIsCancelDialogOpen(false)}>
+              <X className="mr-2 h-4 w-4" />
+              返回
+            </Button>
+            <Button variant="destructive" onClick={handleConfirmCancel}>
+              <X className="mr-2 h-4 w-4" />
+              确认取消
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
       {/* 页面标题和操作 */}
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
@@ -314,10 +562,28 @@ export default function OrdersPage() {
                             <Eye className="mr-2 h-4 w-4" />
                             查看详情
                           </DropdownMenuItem>
-                          <DropdownMenuItem>
+                          <DropdownMenuItem
+                            onClick={() => handleEditOrder(order)}
+                            disabled={!canEditOrder(order)}
+                          >
                             <Edit className="mr-2 h-4 w-4" />
                             编辑订单
                           </DropdownMenuItem>
+                          {canCancelOrder(order) && (
+                            <DropdownMenuItem
+                              onClick={() => handleCancelOrder(order)}
+                              className="text-red-600"
+                            >
+                              <X className="mr-2 h-4 w-4" />
+                              取消订单
+                            </DropdownMenuItem>
+                          )}
+                          {order.status === 'cancelled' && (
+                            <DropdownMenuItem className="text-slate-400" disabled>
+                              <X className="mr-2 h-4 w-4" />
+                              订单已取消
+                            </DropdownMenuItem>
+                          )}
                           <DropdownMenuSeparator />
                           <DropdownMenuItem className="text-red-600">
                             <Trash2 className="mr-2 h-4 w-4" />
